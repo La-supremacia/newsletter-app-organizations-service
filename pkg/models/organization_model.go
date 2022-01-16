@@ -15,6 +15,9 @@ type EditOrganization_Request struct {
 	OrganizationName string `db:"organization_name" json:"organization_name" validate:"required"`
 	OrganizationId   string `db:"organization_id" json:"organization_id" validate:""`
 }
+type DeleteOrganization_Request struct {
+	OrganizationId string `db:"organization_id" json:"organization_id" validate:""`
+}
 
 type CreateOrganization_Response struct {
 	OrganizationId   string `db:"organization_id" json:"organization_id" validate:""`

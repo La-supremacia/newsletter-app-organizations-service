@@ -53,6 +53,27 @@ func PutEditOrganization(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusOK).JSON(responseOrganization)
 }
+func DeleteRemoveOrganization(c *fiber.Ctx) error {
+	u := new(models.DeleteOrganization_Request)
+
+	if err := c.BodyParser(u); err != nil {
+		return err
+	}
+	baseModel := &models.Organization{}
+	coll := mgm.Coll(baseModel)
+	_ = coll.FindByID(u.OrganizationId, baseModel)
+	err := coll.Delete(baseModel)
+
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(err)
+	}
+	fmt.Println("Successfully removed the Organization")
+
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"sucess":  true,
+		"message": "The organization was successfully deleted",
+	})
+}
 
 func TestToken(c *fiber.Ctx) error {
 	name := utils.GetClaim(c, "id")
