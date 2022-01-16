@@ -11,6 +11,7 @@ type Organization struct {
 type CreateOrganization_Request struct {
 	OrganizationName string `db:"organization_name" json:"organization_name" validate:"required"`
 }
+
 type EditOrganization_Request struct {
 	OrganizationName string `db:"organization_name" json:"organization_name" validate:"required"`
 	OrganizationId   string `db:"organization_id" json:"organization_id" validate:""`

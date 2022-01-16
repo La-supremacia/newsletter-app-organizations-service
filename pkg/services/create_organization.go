@@ -15,6 +15,7 @@ func New_CreateOrganization_Response(organizationId string, organizationName str
 		OrganizationName: organizationName,
 	}
 }
+
 func New_EditOrganization_Response(organizationId string, organizationName string) *models.CreateOrganization_Response {
 	return &models.CreateOrganization_Response{
 		OrganizationId:   organizationId,

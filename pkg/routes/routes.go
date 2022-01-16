@@ -11,10 +11,8 @@ func PublicRoutes(a *fiber.App) {
 	route.Post("/organization", controllers.PostCreateOrganization)
 	route.Put("/organization", controllers.PutEditOrganization)
 	route.Delete("/organization", controllers.DeleteRemoveOrganization)
+	route.Get("/organization/:id", controllers.GetRetrieveOrganizationbyId)
+	route.Get("/organization", controllers.GetRetrieveOrganizationbyUserId)
 	route.Post("/test", controllers.TestToken)
-	/*
-		route.Get("/organization/:id", controllers.PostCreateOrganization)
-	*/
 	//route.Get("/", controllers.GetRoutes) //Vamos a usar esta ruta en raiz para que devuelva todas las rutas del microservicio, su metodo y su body
-	//route.Post("/sign-in", controllers.PostSignIn)
 }

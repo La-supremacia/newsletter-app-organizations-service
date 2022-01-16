@@ -8,6 +8,8 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/kamva/mgm/v3"
+	"github.com/kamva/mgm/v3/operator"
+	"go.mongodb.org/mongo-driver/bson"
 )
 
 func PostCreateOrganization(c *fiber.Ctx) error {
@@ -73,6 +75,38 @@ func DeleteRemoveOrganization(c *fiber.Ctx) error {
 		"sucess":  true,
 		"message": "The organization was successfully deleted",
 	})
+}
+
+func GetRetrieveOrganizationbyId(c *fiber.Ctx) error {
+	organization_id := c.Params("id")
+	baseModel := &models.Organization{}
+	coll := mgm.Coll(baseModel)
+	err := coll.FindByID(organization_id, baseModel)
+
+	responseOrganization := services.New_Organization(baseModel.UserId, baseModel.OrganizationName)
+
+	if err != nil {
+		return c.Status(fiber.StatusNotFound).JSON(err)
+	}
+	fmt.Println("Successfully retrived the Organization", responseOrganization)
+
+	return c.Status(fiber.StatusOK).JSON(baseModel)
+}
+
+func GetRetrieveOrganizationbyUserId(c *fiber.Ctx) error {
+	user_id := utils.GetClaim(c, "id")
+	baseModel := &models.Organization{}
+	coll := mgm.Coll(baseModel)
+	result := []models.Organization{}
+
+	err := coll.SimpleFind(&result, bson.M{"userid": bson.M{operator.Eq: user_id}})
+
+	if err != nil {
+		return c.Status(fiber.StatusNotFound).JSON(err)
+	}
+	fmt.Println("Successfully retrived the Organization", result)
+
+	return c.Status(fiber.StatusOK).JSON(result)
 }
 
 func TestToken(c *fiber.Ctx) error {
