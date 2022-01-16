@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"organizations-service/pkg/utils"
+	"os"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -15,7 +15,7 @@ func FiberMiddleware(a *fiber.App) {
 		logger.New(),
 	)
 
-	secret := utils.GoDotEnvVariable("JWT_SECRET_KEY") // os.Getenv("JWT_SECRET_KEY")
+	secret := os.Getenv("JWT_SECRET_KEY") // utils.GoDotEnvVariable("JWT_SECRET_KEY") //
 	a.Use(jwtware.New(jwtware.Config{
 		SigningKey: []byte(secret),
 		ContextKey: "auth",

@@ -2,15 +2,14 @@ package database
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/kamva/mgm/v3"
 	"go.mongodb.org/mongo-driver/mongo/options"
-
-	env "organizations-service/pkg/utils"
 )
 
 func Init() error {
-	mongoDBUri := env.GoDotEnvVariable("MONGODB_URI")
+	mongoDBUri := os.Getenv("MONGODB_URI") //env.GoDotEnvVariable("MONGODB_URI")
 	err := mgm.SetDefaultConfig(nil, "apps", options.Client().ApplyURI(mongoDBUri))
 	if err != nil {
 		return err
