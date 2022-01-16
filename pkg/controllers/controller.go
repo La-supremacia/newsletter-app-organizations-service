@@ -32,6 +32,28 @@ func PostCreateOrganization(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(responseOrganization)
 }
 
+func PutEditOrganization(c *fiber.Ctx) error {
+	u := new(models.EditOrganization_Request)
+
+	if err := c.BodyParser(u); err != nil {
+		return err
+	}
+	baseModel := &models.Organization{}
+	coll := mgm.Coll(baseModel)
+	_ = coll.FindByID(u.OrganizationId, baseModel)
+	baseModel.OrganizationName = u.OrganizationName
+	err := coll.Update(baseModel)
+
+	responseOrganization := services.New_EditOrganization_Response(baseModel.ID.Hex(), baseModel.OrganizationName)
+
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(err)
+	}
+	fmt.Println("Successfully modified the Organization", responseOrganization)
+
+	return c.Status(fiber.StatusOK).JSON(responseOrganization)
+}
+
 func TestToken(c *fiber.Ctx) error {
 	name := utils.GetClaim(c, "id")
 	return c.SendString("Welcome " + name)
