@@ -2,6 +2,7 @@ package main
 
 import (
 	mid "organizations-service/pkg/middleware"
+	"os"
 
 	"organizations-service/pkg/routes"
 	"organizations-service/platform/database"
@@ -15,6 +16,6 @@ func main() {
 	mid.FiberMiddleware(app)
 	database.Init()
 	routes.PublicRoutes(app)
-	app.Listen(":3000")
+	app.Listen(os.Getenv("PORT"))
 	//Commit para cerra issues
 }
