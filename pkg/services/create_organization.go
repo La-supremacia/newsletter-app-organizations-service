@@ -22,3 +22,8 @@ func New_EditOrganization_Response(organizationId string, organizationName strin
 		OrganizationName: organizationName,
 	}
 }
+func New_DeleteOrganization_Request(organizationId string) *models.DeleteOrganization_Request {
+	return &models.DeleteOrganization_Request{
+		OrganizationId: organizationId,
+	}
+}

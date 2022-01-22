@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"fmt"
 	"organizations-service/pkg/models"
 	"organizations-service/pkg/services"
@@ -112,4 +113,25 @@ func GetRetrieveOrganizationbyUserId(c *fiber.Ctx) error {
 func TestToken(c *fiber.Ctx) error {
 	name := utils.GetClaim(c, "id")
 	return c.SendString("Welcome " + name)
+}
+
+func GetRoutes(c *fiber.Ctx) error {
+	createOrganizationRoute := c.App().GetRoute("Create Organization")
+	editOrganizationRoute := c.App().GetRoute("Edit Organization")
+	deleteOrganizationRoute := c.App().GetRoute("Remove Organization")
+	retrieveOrganizationByIdRoute := c.App().GetRoute("Retrieve Organization By Id")
+	retrieveOrganizationByUserIdRoute := c.App().GetRoute("Retrieve Organization By User Id")
+
+	createOrganization := services.New_CreateOrganization_Response("string", "string")
+	editOrganization := services.New_EditOrganization_Response("string", "string")
+	deleteOrganization := services.New_DeleteOrganization_Request("string")
+
+	var ruts = [5]models.Route{
+		services.NewRoute(createOrganizationRoute.Path, createOrganizationRoute.Method, createOrganizationRoute.Name, string(utils.First(json.Marshal(createOrganization)))),
+		services.NewRoute(editOrganizationRoute.Path, editOrganizationRoute.Method, editOrganizationRoute.Name, string(utils.First(json.Marshal(editOrganization)))),
+		services.NewRoute(deleteOrganizationRoute.Path, deleteOrganizationRoute.Method, deleteOrganizationRoute.Name, string(utils.First(json.Marshal(deleteOrganization)))),
+		services.NewRoute(retrieveOrganizationByIdRoute.Path, retrieveOrganizationByIdRoute.Method, retrieveOrganizationByIdRoute.Name, "/:id=<organizationId>"),
+		services.NewRoute(retrieveOrganizationByUserIdRoute.Path, retrieveOrganizationByUserIdRoute.Method, retrieveOrganizationByUserIdRoute.Name, ""),
+	}
+	return c.Status(fiber.StatusOK).JSON(ruts)
 }
