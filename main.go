@@ -18,5 +18,6 @@ func main() {
 	mid.FiberMiddleware(app)
 	database.Init()
 	routes.PublicRoutes(app)
-	app.Listen(os.Getenv("PORT"))
+	port := os.Getenv("PORT")
+	app.Listen(":" + port)
 }
