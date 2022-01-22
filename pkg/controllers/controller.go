@@ -12,6 +12,15 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
+// PostCreateOrganization func creates a new org.
+// @Description  Create and associate a new org by given params.
+// @Summary      Create an organization
+// @Tags         Organization
+// @Accept       json
+// @Produce      json
+// @Param        id   path      string  true  "Organization ID"
+// @Success      200  {object} models.CreateOrganization_Response
+// @Router       /v1/organization/ [post]
 func PostCreateOrganization(c *fiber.Ctx) error {
 	u := new(models.CreateOrganization_Request)
 
@@ -34,6 +43,15 @@ func PostCreateOrganization(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(responseOrganization)
 }
 
+// PutEditOrganization func edits org by given ID or 404 error.
+// @Description  Edit org by given ID.
+// @Summary      edit an organization by given ID
+// @Tags         Organization
+// @Accept       json
+// @Produce      json
+// @Param        id   path      string  true  "Organization ID"
+// @Success      200  {object} models.CreateOrganization_Response
+// @Router       /v1/organization/ [put]
 func PutEditOrganization(c *fiber.Ctx) error {
 	u := new(models.EditOrganization_Request)
 
@@ -55,6 +73,16 @@ func PutEditOrganization(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusOK).JSON(responseOrganization)
 }
+
+// DeleteRemoveOrganization func removes an org by given ID or 404 error.
+// @Description  Remove org by given ID.
+// @Summary      Remove an organization by given ID
+// @Tags         Organization
+// @Accept       json
+// @Produce      json
+// @Param        id   path      string  true  "Organization ID"
+// @Success      200  {object} models.DeleteOrganization_Response
+// @Router       /v1/organization/ [delete]
 func DeleteRemoveOrganization(c *fiber.Ctx) error {
 	u := new(models.DeleteOrganization_Request)
 
@@ -70,13 +98,20 @@ func DeleteRemoveOrganization(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).JSON(err)
 	}
 	fmt.Println("Successfully removed the Organization")
+	responseOrganization := services.New_DeleteOrganization_Response("The organization was successfully deleted", true)
 
-	return c.Status(fiber.StatusOK).JSON(fiber.Map{
-		"sucess":  true,
-		"message": "The organization was successfully deleted",
-	})
+	return c.Status(fiber.StatusOK).JSON(responseOrganization)
 }
 
+// GetRetrieveOrganizationbyId func retrieves an org by given ID or 404 error.
+// @Description  Retrieve org by given ID.
+// @Summary      Retrieve an organization by given ID
+// @Tags         Organization
+// @Accept       json
+// @Produce      json
+// @Param        id   path      string  true  "Organization ID"
+// @Success      200  {object}  models.GetOrganization_Response
+// @Router       /v1/organization/:id [get]
 func GetRetrieveOrganizationbyId(c *fiber.Ctx) error {
 	organization_id := c.Params("id")
 	baseModel := &models.Organization{}
@@ -93,6 +128,15 @@ func GetRetrieveOrganizationbyId(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(baseModel)
 }
 
+// GetRetrieveOrganizationbyUserId func retrieves an org by given user ID or 404 error.
+// @Description  Retrieve org by given user ID.
+// @Summary      Retrieve an organization by given user ID
+// @Tags         Organization
+// @Accept       json
+// @Produce      json
+// @Param        id   path      string  true  "User ID"
+// @Success      200  {object}  models.GetOrganization_Response
+// @Router       /v1/organization/ [get]
 func GetRetrieveOrganizationbyUserId(c *fiber.Ctx) error {
 	user_id := utils.GetClaim(c, "id")
 	baseModel := &models.Organization{}
