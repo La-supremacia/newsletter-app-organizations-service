@@ -26,5 +26,8 @@ func New_DeleteOrganization_Response(message string, success bool) *models.Delet
 	return &models.DeleteOrganization_Response{
 		Message: message,
 		Success: success,
+func New_DeleteOrganization_Request(organizationId string) *models.DeleteOrganization_Request {
+	return &models.DeleteOrganization_Request{
+		OrganizationId: organizationId,
 	}
 }
