@@ -1,0 +1,151 @@
+basePath: /
+definitions:
+  models.CreateOrganization_Response:
+    properties:
+      name:
+        type: string
+      organization_id:
+        type: string
+    required:
+    - name
+    type: object
+  models.DeleteOrganization_Response:
+    properties:
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  models.GetOrganization_Response:
+    properties:
+      _id:
+        type: string
+      created_at:
+        type: string
+      organization_name:
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        type: string
+    required:
+    - organization_name
+    - user_id
+    type: object
+host: localhost:3000
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server celler server
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Swagger Example API
+  version: "2.0"
+paths:
+  /v1/organization/:
+    delete:
+      consumes:
+      - application/json
+      description: Remove org by given ID.
+      parameters:
+      - description: Organization ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.DeleteOrganization_Response'
+      summary: Remove an organization by given ID
+      tags:
+      - Organization
+    get:
+      consumes:
+      - application/json
+      description: Retrieve org by given user ID.
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.GetOrganization_Response'
+      summary: Retrieve an organization by given user ID
+      tags:
+      - Organization
+    post:
+      consumes:
+      - application/json
+      description: Create and associate a new org by given params.
+      parameters:
+      - description: Organization ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.CreateOrganization_Response'
+      summary: Create an organization
+      tags:
+      - Organization
+    put:
+      consumes:
+      - application/json
+      description: Edit org by given ID.
+      parameters:
+      - description: Organization ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.CreateOrganization_Response'
+      summary: edit an organization by given ID
+      tags:
+      - Organization
+  /v1/organization/:id:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve org by given ID.
+      parameters:
+      - description: Organization ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.GetOrganization_Response'
+      summary: Retrieve an organization by given ID
+      tags:
+      - Organization
+swagger: "2.0"
